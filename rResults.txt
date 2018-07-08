@@ -1,0 +1,32 @@
+> hashR <- read_csv("X:/University/2018/Prototypes/LoadHashExport/hashR.csv")
+> View(hashR)
+> summary(hashR)
+> fir <- lm(data = hashR)
+> summary(fir)
+Call:
+lm(data = hashR)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+ -90030  -44840  -14300   17584 2700714 
+
+Coefficients: (1 not defined because of singularities)
+                Estimate Std. Error t value Pr(>|t|)    
+(Intercept)    -217330.3    29493.4  -7.369 2.11e-13 ***
+`log(input)`     11225.3      455.1  24.664  < 2e-16 ***
+`log(out)`        9785.4     4483.6   2.182   0.0291 *  
+`log2(Buffer)`   -2483.7      236.6 -10.499  < 2e-16 ***
+`SHA-224`        -4157.6     6684.1  -0.622   0.5340    
+`SHA-256`        -2529.1     6626.1  -0.382   0.7027    
+`SHA-384`        -3144.7     6932.2  -0.454   0.6501    
+`SHA-512`        -1426.9     7722.5  -0.185   0.8534    
+`SHA3-224`       -1558.0     6771.0  -0.230   0.8180    
+`SHA3-256`       -1843.0     6648.4  -0.277   0.7816    
+`SHA3-384`       -2089.5     6953.4  -0.300   0.7638    
+`SHA3-512`            NA         NA      NA       NA    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 109600 on 3687 degrees of freedom
+Multiple R-squared:  0.1573,	Adjusted R-squared:  0.155 
+F-statistic: 68.83 on 10 and 3687 DF,  p-value: < 2.2e-16

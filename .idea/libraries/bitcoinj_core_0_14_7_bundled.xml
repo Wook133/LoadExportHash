@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="bitcoinj-core-0.14.7-bundled">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../../s214062813/bitcoinj-core-0.14.7-bundled.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../../../s214062813/bitcoinj-core-0.14.7-bundled.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,2 @@
+inputLength,outputLength,sAlgorithm,buffersize,time
+Experiment [inputLength=16192, outputLength =0, sAlgorithm =SHA3-512, buffersize =16384, time =0]
