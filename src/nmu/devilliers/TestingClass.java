@@ -189,10 +189,10 @@ public class TestingClass {
 
         ca = g.commonAncestor(c);
         System.out.println("Common Node: " + ca.data());
-        Collection<? extends TreeNode<String>> path = j.pathBetweenNodes(b);
+        Collection<? extends TreeNode<String>> path = j.pathBetweenNodes(f);
         for (TreeNode<String> tns : path)
         {
-            System.out.print(tns.data().toString() + " -> ");
+            System.out.print(tns.data().toString() + " ----> ");
             //Path: f -> b -> d -> e
         }
         System.out.println();

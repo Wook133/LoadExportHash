@@ -589,13 +589,19 @@ public abstract class TreeNode<T> implements Iterable<TreeNode<T>>, Serializable
         List<TreeNode<T>> nodePath = new LinkedList<>();
         if (this.isAncestorOf(node))
         {
-        	//Start from THIS node, maybe reverse?
             return path(node);
         }
         else if (this.isDescendantOf(node))
         {
 			//Start from THIS node, maybe reverse?
-            return node.path(this);
+			Collection<? extends TreeNode<T>> pathReverser = node.pathBetweenNodes(this);
+			List<TreeNode<T>> reverse = new ArrayList<TreeNode<T>>();
+			for (TreeNode<T> ptn : pathReverser)
+			{
+				reverse.add(0, ptn);
+			}
+			return reverse;
+            //return node.path(this);
         }
         /*else if (node.isAncestorOf(this))
         {
