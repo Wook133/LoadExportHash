@@ -589,10 +589,12 @@ public abstract class TreeNode<T> implements Iterable<TreeNode<T>>, Serializable
         List<TreeNode<T>> nodePath = new LinkedList<>();
         if (this.isAncestorOf(node))
         {
+        	//Start from THIS node, maybe reverse?
             return path(node);
         }
         else if (this.isDescendantOf(node))
         {
+			//Start from THIS node, maybe reverse?
             return node.path(this);
         }
         /*else if (node.isAncestorOf(this))
@@ -600,6 +602,7 @@ public abstract class TreeNode<T> implements Iterable<TreeNode<T>>, Serializable
             return node.path(this);
         }*/
         else {
+			//Start from THIS node, maybe reverse?
             TreeNode<T> ca = this.commonAncestor(node);
             Collection<? extends TreeNode<T>> path1 = ca.pathBetweenNodes(this);
             Collection<? extends TreeNode<T>> path2 = ca.pathBetweenNodes(node);
