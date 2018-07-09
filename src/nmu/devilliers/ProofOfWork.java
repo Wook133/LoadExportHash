@@ -36,8 +36,21 @@ public class ProofOfWork
         //System.out.println(test.recPOW());
         //GenerateDifferentSizeFiles gdsf = new GenerateDifferentSizeFiles();
         //gdsf.writeInputFile("PoWExperiment.txt");
+    }
 
+    public String hashMe()
+    {
+        try {
+            String sAttempt = "";
+            GeneralHASH gHash = new GeneralHASH();
+            return(gHash.HashnoPrint(sContent+nonce, sHashtoUse));
+        }
 
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
 
     }
 

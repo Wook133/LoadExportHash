@@ -2,6 +2,8 @@ package nmu.devilliers;
 
 import javafx.util.Pair;
 import nmu.devilliers.Trash.deVillSource;
+import nmu.devilliers.Tree.Block;
+import nmu.devilliers.Tree.Blockchain;
 import nmu.devilliers.Tree.LinkedMultiTreeNode;
 import nmu.devilliers.Tree.TreeNode;
 
@@ -16,6 +18,8 @@ public class TestingClass {
         System.out.println(s + " : Bytes= " + i);
         System.out.println("0xD9B4BEF9" + " : Bytes= " + getByteLength(1));
 
+        Block v = new Block();
+        Blockchain bc = new Blockchain(v);
         //createTreenode();
         //Node<String> root = createTree();
         //root.printTree(root, " . ");

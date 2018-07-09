@@ -18,12 +18,14 @@ public class Block  {
     private String merkleRoot;
     private ArrayList<Source> listSourceLeaves;
     private int idifficulty;
+    private String blockHash;
 
     public Block(ArrayList<Source> listSourceLeaves, int dif) {
         for (Source s : listSourceLeaves) {
             this.listSourceLeaves.add(s);
         }
         this.idifficulty = dif;
+        this.blockHash = null;
     }
 
     public Block()
@@ -58,6 +60,7 @@ public class Block  {
         makeBlocksize();
         ProofOfWork pow = new ProofOfWork(toPoWinputString(), spattern);
         nonce = pow.pow(0);//decide on which PoW algorithm to use
+        blockHash = pow.hashMe();
     }
 
 
@@ -69,6 +72,9 @@ public class Block  {
 
     public long getBlocksize() {
         return blocksize;
+    }
+    public String getBlockHash() {
+        return blockHash;
     }
 
     public void makeBlocksize() {
