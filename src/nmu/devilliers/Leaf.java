@@ -64,5 +64,4 @@ public abstract class Leaf<T> implements Serializable, Cloneable
     }
 
 
-    public abstract void equalsTo();
 }

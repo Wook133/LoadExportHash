@@ -6,14 +6,13 @@ import java.util.ArrayList;
 
 public final class deVillCargo implements java.io.Serializable, Comparable<deVillCargo>
 {
-
     private String HashofFile;
     private String Timestamp;
     private String SizeofFile;
     private String pkAdder;
     private String OriginalURL;
-    private ArrayList<Pair<String,String>> listMeta = new ArrayList<Pair<String,String>>();
-    private ArrayList<String> moreLinks = new ArrayList<String>();
+    private ArrayList<Pair<String,String>> listMeta = new ArrayList<>();
+    private ArrayList<String> moreLinks = new ArrayList<>();
     private Integer sizeofSource;
 
     public deVillCargo(String hashofFile, String timestamp, String sizeofFile, String pkAdder, String originalURL) {
@@ -178,7 +177,7 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
 
     public ArrayList<Pair<String, String>> toCargoArraylistPairForSending()
     {
-        ArrayList<Pair<String, String>> listout = new ArrayList<Pair<String, String>>();
+        ArrayList<Pair<String, String>> listout = new ArrayList<>();
         /*
         private String OriginalURL;
         private ArrayList<Pair<String,String>> listMeta = new ArrayList<Pair<String,String>>();
@@ -211,10 +210,9 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
     public String hashCargo() {
         try {
             GeneralHASH gh = new GeneralHASH();
-            String s = gh.HashnoPrint(this.toString(), "SHA3-256");
-            return s;
+            return gh.HashnoPrint(this.toString(), "SHA3-256");
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
             System.out.println("de Vill Source, No Such Class or Method: General Hash");
         }
         return getHashofFile();
