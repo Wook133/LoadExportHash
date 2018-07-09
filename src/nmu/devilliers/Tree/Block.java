@@ -1,9 +1,6 @@
 package nmu.devilliers.Tree;
 
-import nmu.devilliers.GeneralHASH;
-import nmu.devilliers.MerkleTree;
-import nmu.devilliers.ProofOfWork;
-import nmu.devilliers.Source;
+import nmu.devilliers.*;
 import nmu.devilliers.Trash.deVillSource;
 
 import java.security.NoSuchAlgorithmException;
@@ -33,14 +30,34 @@ public class Block  {
         this.idifficulty = dif;
     }
 
+    public String toPoWinputString()
+    {
+        String s = staticnumber+blocksize+numberofsources+timestamp+prevBlockHash+merkleRoot+idifficulty;
+        for (Source so : listSourceLeaves)
+        {
+            s.concat(so.toString());
+        }
+        return s;
+
+    }
+
     public void deriveBlock()
     {//public ProofOfWork(String sContent, String sPat)
         //ProofOfWork pow = new ProofOfWork();
 
         numberofsources = listSourceLeaves.size();
+        generateMerkleRoot();
+        TimerServer ts = new TimerServer();
+        timestamp = ts.getTime();
+        String spattern = "";
+        for (int i = 0; i <= idifficulty; i++)
+        {
+            spattern.concat("0");//set number of 0's for PoW
+        }
+        String sInputPow =  toPoWinputString();
 
-        //this.optimalEncodingMessageSize += VarInt.sizeOf((long)numTransactions);
-
+        ProofOfWork pow = new ProofOfWork(sInputPow, spattern);
+        nonce = pow.pow(0);//decide on which PoW algorithm to use
     }
 
 
