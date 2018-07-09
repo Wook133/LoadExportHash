@@ -79,4 +79,9 @@ public class Source extends Leaf<deVillCargo> {
             return this.cargo.toString().compareTo(obj.cargo.toString());
         }
     }
+    public long getApproximateSize()
+    {
+        long a = this.getApproximateSize() + Type().length();
+        return a;
+    }
 }

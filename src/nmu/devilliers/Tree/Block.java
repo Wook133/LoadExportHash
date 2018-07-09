@@ -8,7 +8,8 @@ import java.util.ArrayList;
 
 public class Block  {
 /*extends LinkedMultiTreeNode<Source>*/
-    int staticnumber;
+    final int staticnumber = 0xD9B4BEF9;//3652501241
+    static final long ALLOWED_TIME_DRIFT = 7200L;
     long blocksize;
     int numberofsources;
     private long nonce;
@@ -19,8 +20,10 @@ public class Block  {
     private int idifficulty;
 
     public Block(int staticnumber, long blocksize, int numberofsources, long nonce, long timestamp, String prevBlockHash, String merkleRoot, ArrayList<Source> listSourceLeaves, int dif) {
-        this.listSourceLeaves = listSourceLeaves;
-        this.staticnumber = staticnumber;
+        for (Source s : listSourceLeaves) {
+            this.listSourceLeaves.add(s);
+        }
+
         this.blocksize = blocksize;
         this.numberofsources = numberofsources;
         this.nonce = nonce;
@@ -28,6 +31,11 @@ public class Block  {
         this.prevBlockHash = prevBlockHash;
         this.merkleRoot = merkleRoot;
         this.idifficulty = dif;
+    }
+
+    public Block()
+    {
+
     }
 
     public String toPoWinputString()
@@ -54,9 +62,7 @@ public class Block  {
         {
             spattern.concat("0");//set number of 0's for PoW
         }
-        String sInputPow =  toPoWinputString();
-
-        ProofOfWork pow = new ProofOfWork(sInputPow, spattern);
+        ProofOfWork pow = new ProofOfWork(toPoWinputString(), spattern);
         nonce = pow.pow(0);//decide on which PoW algorithm to use
     }
 
@@ -66,16 +72,21 @@ public class Block  {
         return staticnumber;
     }
 
-    public void setStaticnumber(int staticnumber) {
-        this.staticnumber = staticnumber;
-    }
 
     public long getBlocksize() {
         return blocksize;
     }
 
-    public void setBlocksize(int blocksize) {
-        this.blocksize = blocksize;
+    public void makeBlocksize() {
+        long l = 0;
+        for (Source s : listSourceLeaves)
+        {
+            l = s.getApproximateSize();
+        }
+        l = l + (Integer.BYTES * 3) + (Long.BYTES * 4) + getByteLengthString(prevBlockHash) + getByteLengthString(merkleRoot);
+        blocksize = l;
+
+
     }
 
     public int getNumberofsources() {
@@ -143,6 +154,16 @@ public class Block  {
         mt.populateListHashes(listSourceHashes);
         mt.buildTree("SHA3-256");
         merkleRoot = mt.getMerkleRoot();
+    }
+
+    public static long getByteLengthString(String s)
+    {
+        return s.getBytes().length;
+    }
+
+    public static int getByteLengthInt()
+    {
+        return Integer.BYTES;
     }
 
 }

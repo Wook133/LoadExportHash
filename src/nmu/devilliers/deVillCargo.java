@@ -239,6 +239,10 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
     {
         return s.getBytes().length;
     }
+    public static int getByteLengthInteger()
+    {
+        return Integer.BYTES;
+    }
 
 
 }

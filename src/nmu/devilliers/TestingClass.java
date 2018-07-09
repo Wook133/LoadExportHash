@@ -14,6 +14,7 @@ public class TestingClass {
         String s = "ABCDE";
         int i = getByteLengthString(s);
         System.out.println(s + " : Bytes= " + i);
+        System.out.println("0xD9B4BEF9" + " : Bytes= " + getByteLength(1));
 
         //createTreenode();
         //Node<String> root = createTree();
@@ -273,6 +274,12 @@ public class TestingClass {
     public static int getByteLengthString(String s)
     {
         return s.getBytes().length;
+    }
+
+    public static int getByteLength(int i)
+    {
+        int staticnumber = 0xD9B4BEF9;
+        return Integer.BYTES;
     }
 
 
