@@ -19,17 +19,10 @@ public class Block  {
     private ArrayList<Source> listSourceLeaves;
     private int idifficulty;
 
-    public Block(int staticnumber, long blocksize, int numberofsources, long nonce, long timestamp, String prevBlockHash, String merkleRoot, ArrayList<Source> listSourceLeaves, int dif) {
+    public Block(ArrayList<Source> listSourceLeaves, int dif) {
         for (Source s : listSourceLeaves) {
             this.listSourceLeaves.add(s);
         }
-
-        this.blocksize = blocksize;
-        this.numberofsources = numberofsources;
-        this.nonce = nonce;
-        this.timestamp = timestamp;
-        this.prevBlockHash = prevBlockHash;
-        this.merkleRoot = merkleRoot;
         this.idifficulty = dif;
     }
 
@@ -62,6 +55,7 @@ public class Block  {
         {
             spattern.concat("0");//set number of 0's for PoW
         }
+        makeBlocksize();
         ProofOfWork pow = new ProofOfWork(toPoWinputString(), spattern);
         nonce = pow.pow(0);//decide on which PoW algorithm to use
     }
@@ -165,6 +159,29 @@ public class Block  {
     {
         return Integer.BYTES;
     }
+
+    public String toString()
+    {
+        String s = staticnumber + "_" + ALLOWED_TIME_DRIFT + "_" + blocksize + "_" + numberofsources + "_" + nonce + "_" + timestamp + "_" + prevBlockHash + "_" + merkleRoot;
+        for (Source scur : listSourceLeaves)
+        {
+            s.concat(scur.toString());
+            s.concat("_");
+        }
+        s = s + idifficulty;
+        return s;
+    }
+
+    /*final int staticnumber = 0xD9B4BEF9;//3652501241
+    static final long ALLOWED_TIME_DRIFT = 7200L;
+    long blocksize;
+    int numberofsources;
+    private long nonce;
+    private long timestamp;
+    private String prevBlockHash;
+    private String merkleRoot;
+    private ArrayList<Source> listSourceLeaves;
+    private int idifficulty;*/
 
 }
 
