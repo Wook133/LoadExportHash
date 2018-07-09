@@ -5,7 +5,9 @@ public class Blockchain extends LinkedMultiTreeNode<Block> {
     //prune
     //consensus
     //verify
-
+    //add
+    //build
+    //prepare for transfer
 
     public void getParentsHash()
     {
