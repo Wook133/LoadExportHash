@@ -218,5 +218,27 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
         return getHashofFile();
     }
 
+    public long getApproximateSize()
+    {
+
+        /*private String HashofFile;
+        private String Timestamp;
+        private String SizeofFile;
+        private String pkAdder;
+        private String OriginalURL;
+        private ArrayList<Pair<String,String>> listMeta = new ArrayList<>();
+        private ArrayList<String> moreLinks = new ArrayList<>();
+        private Integer sizeofSource;*/
+
+        String s = toString();
+        long lout = getByteLengthString(s);
+        return lout;
+    }
+
+    public static int getByteLengthString(String s)
+    {
+        return s.getBytes().length;
+    }
+
 
 }

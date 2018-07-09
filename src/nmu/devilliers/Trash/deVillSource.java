@@ -260,10 +260,6 @@ public class deVillSource extends Leaf {
         return null;
     }
 
-    @Override
-    public void equalsTo() {
-
-    }
 
 
 }

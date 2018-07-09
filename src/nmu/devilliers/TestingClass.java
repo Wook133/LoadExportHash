@@ -11,8 +11,11 @@ import java.util.Collection;
 public class TestingClass {
     public static void main(String[] args)
     {
+        String s = "ABCDE";
+        int i = getByteLengthString(s);
+        System.out.println(s + " : Bytes= " + i);
 
-        createTreenode();
+        //createTreenode();
         //Node<String> root = createTree();
         //root.printTree(root, " . ");
        // Node<String> r = root.getChildren().get(0);
@@ -213,7 +216,7 @@ public class TestingClass {
 
 
 
-        /*Collection<? extends TreeNode<String>> preOrderedCollection = f.preOrdered();
+        Collection<? extends TreeNode<String>> preOrderedCollection = f.preOrdered();
         Collection<? extends TreeNode<String>> postOrderedCollection = f.postOrdered();
         //Collection<? extends TreeNode<String>> inOrderedCollection = f.inOrdered();
 
@@ -266,6 +269,13 @@ public class TestingClass {
         preorder(node.leftMostNode);
         preorder(node.rightSiblingNode);
     }*/
+
+    public static int getByteLengthString(String s)
+    {
+        return s.getBytes().length;
+    }
+
+
 
 
 
