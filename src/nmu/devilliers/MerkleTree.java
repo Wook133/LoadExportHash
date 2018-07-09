@@ -59,6 +59,14 @@ public class MerkleTree
         return this.listHashes.size();
     }
 
+    public void populateListHashes(ArrayList<String> listIN)
+    {
+        for (String s : listIN)
+        {
+            listHashes.add(s);
+        }
+    }
+
 
     /**
      * Initializes empty tree

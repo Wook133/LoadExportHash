@@ -6,19 +6,16 @@ import java.util.ArrayList;
 
 public class Source extends Leaf<deVillCargo> {
 
-
     public Source(deVillCargo cargo) {
         super(cargo);
     }
-
 
     @Override
     public Boolean equalsTo(Leaf obj1) {
         if (this.Type().equals(obj1.Type())) {
             return this.cargo.equalsTo((deVillCargo) obj1.cargo);
         }
-        else
-        {
+        else {
             return this.cargo.toString().equals(obj1.cargo.toString());
         }
     }
@@ -28,8 +25,7 @@ public class Source extends Leaf<deVillCargo> {
         if (this.Type().equals(obj1.Type())) {
             return this.cargo.compareTo((deVillCargo) obj1.cargo);
         }
-        else
-        {
+        else {
             return this.cargo.toString().compareTo(obj1.cargo.toString());
         }
     }
@@ -69,8 +65,7 @@ public class Source extends Leaf<deVillCargo> {
         if (this.Type().equals(obj.Type())) {
             return this.cargo.equalsTo((deVillCargo) obj.cargo);
         }
-        else
-        {
+        else {
             return this.cargo.toString().equals(obj.cargo.toString());
         }
     }
@@ -80,10 +75,8 @@ public class Source extends Leaf<deVillCargo> {
         if (this.Type().equals(obj.Type())) {
             return this.cargo.compareTo((deVillCargo) obj.cargo);
         }
-        else
-        {
+        else {
             return this.cargo.toString().compareTo(obj.cargo.toString());
         }
     }
-
 }
