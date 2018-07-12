@@ -24,15 +24,28 @@ public class Block  {
         for (Source s : listSourceLeaves) {
             this.listSourceLeaves.add(s);
         }
+        TimerServer ts = new TimerServer();
+        timestamp = ts.getTime();
         this.idifficulty = dif;
         this.blockHash = null;
     }
 
-    public Block()
+    public Block(ArrayList<Source> listSourceLeaves, long nonce, long timestamp, String prevBlockHash, int idifficulty)
     {
-
+        for (Source s : listSourceLeaves) {
+            this.listSourceLeaves.add(s);
+        }
+        this.nonce = nonce;
+        this.timestamp = timestamp;
+        this.prevBlockHash = prevBlockHash;
+        this.idifficulty = idifficulty;
+        this.numberofsources = this.listSourceLeaves.size();
     }
 
+    /**
+     * Input String for PoW
+     * @return
+     */
     public String toPoWinputString()
     {
         String s = staticnumber+blocksize+numberofsources+timestamp+prevBlockHash+merkleRoot+idifficulty;
@@ -44,23 +57,44 @@ public class Block  {
 
     }
 
+
+
     public void deriveBlock()
     {//public ProofOfWork(String sContent, String sPat)
         //ProofOfWork pow = new ProofOfWork();
 
         numberofsources = listSourceLeaves.size();
         generateMerkleRoot();
-        TimerServer ts = new TimerServer();
-        timestamp = ts.getTime();
+        String spattern = "";
+        spattern = makePattern();
+        makeBlocksize();
+        ProofOfWork pow = new ProofOfWork(toPoWinputString(), spattern);
+        nonce = pow.pow(0);//decide on which PoW algorithm to use
+        blockHash = pow.hashMe();
+    }
+
+    public void deriveBlockfromNonce(long n)
+    {
+        listSourceLeaves.size();
+        String sMerkle = generateMerkleRoot(this.getListSourceLeaves());
+        String spattern = "";
+        spattern = makePattern();
+        makeBlocksize();
+        ProofOfWork pow = new ProofOfWork(toPoWinputString(), spattern);
+        nonce = pow.pow(0);//decide on which PoW algorithm to use
+        blockHash = pow.hashMe();
+    }
+
+
+
+    public String makePattern()
+    {
         String spattern = "";
         for (int i = 0; i <= idifficulty; i++)
         {
             spattern.concat("0");//set number of 0's for PoW
         }
-        makeBlocksize();
-        ProofOfWork pow = new ProofOfWork(toPoWinputString(), spattern);
-        nonce = pow.pow(0);//decide on which PoW algorithm to use
-        blockHash = pow.hashMe();
+        return spattern;
     }
 
 
@@ -155,6 +189,25 @@ public class Block  {
         mt.buildTree("SHA3-256");
         merkleRoot = mt.getMerkleRoot();
     }
+    public String generateMerkleRoot(ArrayList<Source> LSL)
+    {
+        ArrayList<String> listSourceHashes = new ArrayList<>();
+        for (Source scur : LSL) {
+            try {
+                GeneralHASH gh = new GeneralHASH();
+                String sHash = gh.HashnoPrint(scur.toString(), "SHA3-256");
+                listSourceHashes.add(scur.toString());
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+        }
+
+        MerkleTree mt = new MerkleTree();
+        mt.populateListHashes(listSourceHashes);
+        mt.buildTree("SHA3-256");
+        return mt.getMerkleRoot();
+    }
+
 
     public static long getByteLengthString(String s)
     {
@@ -177,6 +230,51 @@ public class Block  {
         s = s + idifficulty;
         return s;
     }
+
+    //ArrayList<Source> listSourceLeaves, long nonce, long timestamp, String prevBlockHash, int idifficulty
+    public Block UseThisBlockToCreateBlockToCompareAgainst(ArrayList<Source> LSL, long n, long ts, String ph, int id)
+    {
+        Block a = new Block(LSL, n, ts, ph, id);
+        a.generateMerkleRoot();
+        String spattern = "";
+        spattern = makePattern();
+        makeBlocksize();
+        ProofOfWork pow = new ProofOfWork(toPoWinputString(), spattern);
+        a.setNonce(nonce = pow.pow(n, 0));//decide on which PoW algorithm to use
+        a.blockHash = pow.hashMe();
+
+        return a;
+    }
+
+    public int getIdifficulty() {
+        return idifficulty;
+    }
+
+    public static long getAllowedTimeDrift() {
+        return ALLOWED_TIME_DRIFT;
+    }
+
+    public boolean equals(Block A)
+    {
+        if (A.getPrevBlockHash().compareTo(this.getPrevBlockHash()) == 0)
+        {
+            if (A.getBlockHash().compareTo(this.getBlockHash()) == 0)
+            {
+                if (A.getMerkleRoot().compareTo(this.getMerkleRoot()) == 0)
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
+
+
+
 
     /*final int staticnumber = 0xD9B4BEF9;//3652501241
     static final long ALLOWED_TIME_DRIFT = 7200L;

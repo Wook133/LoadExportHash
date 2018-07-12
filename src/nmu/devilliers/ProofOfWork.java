@@ -118,6 +118,88 @@ public class ProofOfWork
         }
         return iAns;
     }
+    /**
+     *
+     * @param ipos identifies where the pattern occurs. 0 -> Start; 1 -> Anywhere; 2 -> End
+     * @return
+     */
+    public long pow(long lstart, int ipos)
+    {
+        long iAns = lstart-1;
+        Boolean bfound = false;
+
+        try {
+            String sAttempt = "";
+            GeneralHASH gHash = new GeneralHASH();
+
+            while (bfound == false)
+            {
+                iAns = iAns + 1;
+                sAttempt = gHash.HashnoPrint(sContent+iAns, sHashtoUse);
+                switch(ipos)
+                {
+                    case 0:
+                    {
+                        if (sAttempt.startsWith(sPattern) == true) {
+                            bfound = true;
+                            // System.out.println("POW (" + iAns + ") :  " + sAttempt);
+                            //return iAns;
+                        }
+                    }
+                    break;
+                    case 1:
+                    {
+                        if (sAttempt.contains(sPattern) == true) {
+                            bfound = true;
+                            //System.out.println("POW (" + iAns + ") :  " + sAttempt);
+                            //return iAns;
+                        }
+                    }
+                    case 2:
+                    {
+                        if (sAttempt.endsWith(sPattern) == true) {
+                            bfound = true;
+                            //System.out.println("POW (" + iAns + ") :  " + sAttempt);
+                            //return iAns;
+                        }
+                    }
+                    break;
+                    default:
+                    {
+                        if (sAttempt.startsWith(sPattern) == true) {
+                            bfound = true;
+                            //System.out.println("POW (" + iAns + ") :  " + sAttempt);
+                            //return iAns;
+                        }
+                    }
+                }
+            }
+            // System.out.println("POW (" + iAns + ") :  " + sAttempt);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        return iAns;
+    }
+
+    public String powString(long lstart, int ipos)
+    {
+        long iAns = lstart;
+        Boolean bfound = false;
+        String sAttempt = "";
+        try {
+
+            GeneralHASH gHash = new GeneralHASH();
+            sAttempt = gHash.HashnoPrint(sContent+iAns, sHashtoUse);
+
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        return sAttempt;
+    }
 
     public long powReverse(int ipos)
     {

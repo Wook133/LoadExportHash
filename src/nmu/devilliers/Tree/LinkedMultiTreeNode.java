@@ -33,17 +33,17 @@ public class LinkedMultiTreeNode<T> extends MultiTreeNode<T> {
 	/**
 	 * Current UID of this object used for serialization
 	 */
-	private static final long serialVersionUID = 1L;
+	protected static final long serialVersionUID = 1L;
 
 	/**
 	 * A reference to the first subtree tree node of the current tree node
 	 */
-	private LinkedMultiTreeNode<T> leftMostNode;
+	protected LinkedMultiTreeNode<T> leftMostNode;
 
 	/**
 	 * A reference to the right sibling tree node of the current tree node
 	 */
-	private LinkedMultiTreeNode<T> rightSiblingNode;
+	protected LinkedMultiTreeNode<T> rightSiblingNode;
 
 	/**
 	 * A reference to the last subtree node of the current tree node
@@ -51,7 +51,7 @@ public class LinkedMultiTreeNode<T> extends MultiTreeNode<T> {
 	 * Used to avoid the discovery of the last subtree node. As a result
 	 * significantly optimized such operations like addition etc.
 	 */
-	private LinkedMultiTreeNode<T> lastSubtreeNode;
+	protected LinkedMultiTreeNode<T> lastSubtreeNode;
 
 	/**
 	 * Creates an instance of this class
