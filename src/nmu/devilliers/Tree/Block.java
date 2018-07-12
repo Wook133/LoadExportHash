@@ -61,7 +61,7 @@ public class Block  {
     }
 
 
-
+//seems to work
     public void deriveBlock()
     {//public ProofOfWork(String sContent, String sPat)
         //ProofOfWork pow = new ProofOfWork();
