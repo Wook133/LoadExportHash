@@ -20,8 +20,10 @@ public class Block  {
     private int idifficulty;
     private String blockHash;
 
-    public Block(ArrayList<Source> listSourceLeaves, int dif) {
-        for (Source s : listSourceLeaves) {
+    public Block(ArrayList<Source> LSL, int dif) {
+        listSourceLeaves = new ArrayList<>();
+        for (Source s : LSL) {
+            System.out.println(s.toString());
             this.listSourceLeaves.add(s);
         }
         TimerServer ts = new TimerServer();
@@ -30,9 +32,10 @@ public class Block  {
         this.blockHash = null;
     }
 
-    public Block(ArrayList<Source> listSourceLeaves, long nonce, long timestamp, String prevBlockHash, int idifficulty)
+    public Block(ArrayList<Source> LSL, long nonce, long timestamp, String prevBlockHash, int idifficulty)
     {
-        for (Source s : listSourceLeaves) {
+        listSourceLeaves = new ArrayList<>();
+        for (Source s : LSL) {
             this.listSourceLeaves.add(s);
         }
         this.nonce = nonce;
@@ -51,7 +54,7 @@ public class Block  {
         String s = staticnumber+blocksize+numberofsources+timestamp+prevBlockHash+merkleRoot+idifficulty;
         for (Source so : listSourceLeaves)
         {
-            s.concat(so.toString());
+            s = s + (so.toString());
         }
         return s;
 
@@ -63,6 +66,7 @@ public class Block  {
     {//public ProofOfWork(String sContent, String sPat)
         //ProofOfWork pow = new ProofOfWork();
 
+        System.out.println("PEEEEEEEEEEEE");
         numberofsources = listSourceLeaves.size();
         generateMerkleRoot();
         String spattern = "";
@@ -70,7 +74,8 @@ public class Block  {
         makeBlocksize();
         ProofOfWork pow = new ProofOfWork(toPoWinputString(), spattern);
         nonce = pow.pow(0);//decide on which PoW algorithm to use
-        blockHash = pow.hashMe();
+        //blockHash = pow.hashMe();
+        blockHash = pow.powString(nonce, 0);
     }
 
     public void deriveBlockfromNonce(long n)
@@ -92,7 +97,7 @@ public class Block  {
         String spattern = "";
         for (int i = 0; i <= idifficulty; i++)
         {
-            spattern.concat("0");//set number of 0's for PoW
+            spattern = spattern+ "0";//set number of 0's for PoW
         }
         return spattern;
     }
@@ -111,6 +116,9 @@ public class Block  {
         return blockHash;
     }
 
+    /**
+     * if root do something special
+     */
     public void makeBlocksize() {
         long l = 0;
         for (Source s : listSourceLeaves)
@@ -224,8 +232,7 @@ public class Block  {
         String s = staticnumber + "_" + ALLOWED_TIME_DRIFT + "_" + blocksize + "_" + numberofsources + "_" + nonce + "_" + timestamp + "_" + prevBlockHash + "_" + merkleRoot;
         for (Source scur : listSourceLeaves)
         {
-            s.concat(scur.toString());
-            s.concat("_");
+            s = s + scur.toString() + "_";
         }
         s = s + idifficulty;
         return s;

@@ -17,9 +17,25 @@ public class TestingClass {
         int i = getByteLengthString(s);
         System.out.println(s + " : Bytes= " + i);
         System.out.println("0xD9B4BEF9" + " : Bytes= " + getByteLength(1));
+//public Block(ArrayList<Source> listSourceLeaves, long nonce, long timestamp, String prevBlockHash, int idifficulty)
+        // public deVillCargo(String hashofFile, String timestamp, String sizeofFile, String pkAdder, String originalURL)
+        deVillCargo dvc = new deVillCargo("hash0", "100", "30", "het", "wprl.com");
+        deVillCargo dvc2 = new deVillCargo("hash1", "212", "34234", "dsffaefrwer", "sadsade.com");
+        Source s1 = new Source(dvc);
 
-        Block v = new Block();
+        Source s2 = new Source(dvc2);
+        ArrayList<Source> alS = new ArrayList<>();
+
+        alS.add(s1);
+        alS.add(s2);
+
+
+        Block v = new Block(alS, 2);
+        System.out.println(v.toPoWinputString());
+        v.setPrevBlockHash("Progenitor");
+        v.deriveBlock();
         Blockchain bc = new Blockchain(v);
+        System.out.println(v.getBlockHash());
         //createTreenode();
         //Node<String> root = createTree();
         //root.printTree(root, " . ");

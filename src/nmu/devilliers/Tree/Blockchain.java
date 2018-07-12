@@ -6,15 +6,15 @@ import nmu.devilliers.ProofOfWork;
 public class Blockchain extends LinkedMultiTreeNode<Block>
 {
 
-    //prune
-    //consensus
-    //verify
-    //add -> entire process
-    //build
-    //prepare for transfer
-    //save
-    //"View"
-    //Receive
+    //prune                         no
+    //consensus                     no
+    //verify                        yes
+    //add -> entire process         yes
+    //build                         no
+    //prepare for transfer          no
+    //save                          no
+    //"View"                        no
+    //Receive                       no
 
     private long totalNodeBlockReached;//total number of nodes this block has been received by
     private String parentsHash;
@@ -139,7 +139,6 @@ public class Blockchain extends LinkedMultiTreeNode<Block>
             return false;
         }
         return false;
-
     }
 
    /* public boolean add(TreeNode<T> subtree) {

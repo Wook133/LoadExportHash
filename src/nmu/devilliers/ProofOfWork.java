@@ -43,7 +43,10 @@ public class ProofOfWork
         try {
             String sAttempt = "";
             GeneralHASH gHash = new GeneralHASH();
-            return(gHash.HashnoPrint(sContent+nonce, sHashtoUse));
+            sAttempt = gHash.HashnoPrint(sContent+nonce, sHashtoUse);
+            System.out.println(sAttempt);
+            return(sAttempt);
+
         }
 
         catch (Exception e)
@@ -198,6 +201,7 @@ public class ProofOfWork
         {
             System.out.println(e);
         }
+        //System.out.println(sAttempt);
         return sAttempt;
     }
 
