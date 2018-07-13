@@ -84,4 +84,18 @@ public class Source extends Leaf<deVillCargo> {
         long a = this.cargo.getApproximateSize() + Type().length();
         return a;
     }
+
+    /**
+     * determine whether this hash is the same as that hash
+     * @param s1 the Source to compare to
+     * @return true if hashes are the same
+     */
+    public boolean ThisHashEqualThatHash(Source s1)
+    {
+        if (this.hashCargo().compareTo(s1.hashCargo()) == 0)
+            return true;
+        else
+            return false;
+
+    }
 }

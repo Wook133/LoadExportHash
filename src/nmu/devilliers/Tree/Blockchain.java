@@ -169,7 +169,7 @@ public class Blockchain extends LinkedMultiTreeNode<Block>
      * @param dTotal
      * @return
      */
-    public boolean prunebyConsensus(double dTotal)
+    public HashSet<Source> prunebyConsensus(double dTotal)
     {
         double dconsensus = (totalNodeBlockReached * 1.00) / (dTotal * 1.00);
         long timestamp = this.data.getTimestamp();
@@ -177,13 +177,15 @@ public class Blockchain extends LinkedMultiTreeNode<Block>
 
         long lnow = getTimeNow();
         long timestampTimePlusDay = this.data.getTimestamp() + 86400000;
+        HashSet<Source> setSources = new HashSet<>();
         if (((dconsensus < 0.4) && (lnow > timestampTimePlusDay)))
         {
             setOut = clearWithGet();
             clear();
-            return true;
+            setSources = getSourcesfromTree(setOut);
+            return setSources;
         }
-        return false;
+        return setSources;
     }
 
     public HashSet<Source> getSourcesfromTree(HashSet<LinkedMultiTreeNode<Block>> setIn)
