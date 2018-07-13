@@ -178,6 +178,8 @@ public class LinkedMultiTreeNode<T> extends MultiTreeNode<T> {
 		}
 	}
 
+
+
 	/**
 	 * Returns an iterator over the elements in this tree in proper sequence
 	 * <p>

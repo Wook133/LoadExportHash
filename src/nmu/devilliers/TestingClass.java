@@ -14,6 +14,8 @@ public class TestingClass {
     public static void main(String[] args)
     {
         String s = "ABCDE";
+        TimerServer ts = new TimerServer();
+        System.out.println(ts.getTime());
         int i = getByteLengthString(s);
         System.out.println(s + " : Bytes= " + i);
         System.out.println("0xD9B4BEF9" + " : Bytes= " + getByteLength(1));
@@ -36,6 +38,8 @@ public class TestingClass {
         v.deriveBlock();
         Blockchain bc = new Blockchain(v);
         System.out.println(v.getBlockHash());
+        ts = new TimerServer();
+        System.out.println(ts.getTime());
         //createTreenode();
         //Node<String> root = createTree();
         //root.printTree(root, " . ");

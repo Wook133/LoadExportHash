@@ -21,6 +21,14 @@ public class TimerServer {
         long lsystemTime = System.currentTimeMillis();
         Date systemTime = new Date(lsystemTime);
         System.out.println("Time from: System " + "\t\t" + "\t\t" + systemTime + "\t\t" + lsystemTime);
+
+        //Thread.sleep(86400000);
+        //lsystemTime = System.currentTimeMillis();
+       // systemTime = new Date(lsystemTime);
+       // System.out.println("Time from: System " + "\t\t" + "\t\t" + systemTime + "\t\t" + lsystemTime);
+
+
+
       /* try {
             NTPUDPClient timeClient = new NTPUDPClient();
             InetAddress inetAddress = InetAddress.getByName(TIME_SERVER);

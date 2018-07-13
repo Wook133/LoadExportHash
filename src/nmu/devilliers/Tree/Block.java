@@ -172,7 +172,12 @@ public class Block  {
     }
 
     public ArrayList<Source> getListSourceLeaves() {
-        return listSourceLeaves;
+        ArrayList<Source> dupli = new ArrayList<>();
+        for (Source scur : listSourceLeaves)
+        {
+            dupli.add(scur);
+        }
+        return dupli;
     }
 
     public void setListSourceLeaves(ArrayList<Source> listSourceLeaves) {
