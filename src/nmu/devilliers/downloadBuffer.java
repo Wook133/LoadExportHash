@@ -1,18 +1,22 @@
 package nmu.devilliers;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.net.URL;
 import java.nio.*;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.file.FileStore;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import javafx.util.Pair;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+
+import static java.nio.file.Files.size;
 
 
 public class downloadBuffer {
@@ -20,8 +24,9 @@ public class downloadBuffer {
     {
         //bufferDownloadOutput();
        // System.out.println(bufferDown("", ""));
-        String s = bufferDown("http://horriblesubs.info/images/b/Giveaway4BE.jpg", false);
-        long ip = pow(s, "SHA3-256", "0");
+       // String s = bufferDown("http://horriblesubs.info/images/b/Giveaway4BE.jpg", false);
+        String s = bufferDown("https://www.nmbt.co.za/events/plett_arts_festival.html", false);
+        //long ip = pow(s, "SHA3-256", "0");
         /*try
         {
             GeneralHASH gHash = new GeneralHASH();
@@ -56,6 +61,7 @@ public class downloadBuffer {
      */
     public static String bufferDown(String sInputLocation, boolean bdelete)
     {
+        ArrayList<Pair<String,String>> meta = new ArrayList<>();
         String sout = "";
         String sFile = "";
         try {
@@ -76,8 +82,14 @@ public class downloadBuffer {
             GeneralHASH gHash = new GeneralHASH();
             sout = gHash.naiveFileReaderHash(sFile, "SHA3-256", 65536);
             System.out.println("Hash: " + sout);
+            System.out.println("Size: " + getFileSize(sFile) + " bytes");
+            /*Path pfilepath = Paths.get(sFile);
+            System.out.println("Size: " + size(pfilepath) + " bytes");*/
             if (bdelete == true) {
                 File donewith = new File(sFile);
+
+                //get path??
+
                 FileUtils.deleteQuietly(donewith);
             }
 
@@ -147,7 +159,26 @@ public class downloadBuffer {
             System.out.println(e);
         }
         return iAns;
-
     }
+
+    public static long getFileSize(String sFile){
+        try {
+            Path pfilepath = Paths.get(sFile);
+            return size(pfilepath);
+        }
+        catch (IOException ioe)
+        {
+            System.out.println(ioe);
+        }
+        return 0;
+    }
+
+   /* public ArrayList<Pair<String, String>> getFileMetaData(Path filePath)
+    {
+        Path filePath = new Path(sPath);
+        FileStore store = Files.getFileStore(sPath);
+
+
+    }*/
 
 }

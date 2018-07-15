@@ -15,9 +15,9 @@ public class Blockchain extends LinkedMultiTreeNode<Block>
     //consensus                     no
     //verify                        yes
     //add -> entire process         yes
-    //build                         no
+    //build -> from XML             no
     //prepare for transfer          no
-    //save                          no
+    //save -> to XML                no
     //"View"                        no
     //Receive                       no
 
@@ -233,6 +233,8 @@ public class Blockchain extends LinkedMultiTreeNode<Block>
         }
         return setOut;
     }
+
+
 
    /* public boolean add(TreeNode<T> subtree) {
         if (subtree == null) {

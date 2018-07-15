@@ -11,5 +11,7 @@
     <orderEntry type="library" name="bitcoinj-core-0.14.7-bundled" level="project" />
     <orderEntry type="library" name="commons-net-3.6" level="project" />
     <orderEntry type="library" name="commons-io-2.6" level="project" />
+    <orderEntry type="library" name="jopt-simple-5.0.4" level="project" />
+    <orderEntry type="library" name="netty-all-4.1.27.Final" level="project" />
   </component>
 </module>
