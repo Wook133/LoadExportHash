@@ -152,9 +152,6 @@ public class AccountXML {
             emptyTextNode.getParentNode().removeChild(emptyTextNode);
         }
 
-
-
-
         Element root = document.getDocumentElement();
         Element newAccount = document.createElement("Account");
         Element name = document.createElement("publicAddress");
@@ -164,14 +161,12 @@ public class AccountXML {
 
 
         DOMSource source = new DOMSource(document);
-
-
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
-
         Transformer transformer = transformerFactory.newTransformer();
-
+        //INDENT
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
         StreamResult result = new StreamResult("output.xml");
         transformer.transform(source, result);
 
