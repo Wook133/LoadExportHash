@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 import javafx.util.Pair;
 import org.apache.commons.io.FileUtils;
@@ -37,6 +38,13 @@ public class downloadBuffer {
         {
             System.out.println(e);
         }*/
+
+        TreeSet<String> ts1= new TreeSet<String>();
+        ts1.add("B");
+        ts1.add("C");
+        ts1.add("A");
+
+        System.out.println(ts1);
     }
 
     public static void bufferDownloadOutput()
@@ -173,12 +181,14 @@ public class downloadBuffer {
         return 0;
     }
 
-   /* public ArrayList<Pair<String, String>> getFileMetaData(Path filePath)
+    public static void  getFileMetaData(Path filePath)
     {
-        Path filePath = new Path(sPath);
-        FileStore store = Files.getFileStore(sPath);
+        ArrayList<Pair<String, String>> listpair = new ArrayList<>();
 
 
-    }*/
+       // FileStore store = Files.getFileStore(filePath);
+
+
+    }
 
 }

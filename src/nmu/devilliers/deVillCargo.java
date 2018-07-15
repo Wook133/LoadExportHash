@@ -9,7 +9,7 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
     private String HashofFile;
     private String Timestamp;
     private String SizeofFile;
-    private String pkAdder;
+    private String publicAdressAdder;
     private String OriginalURL;
     private ArrayList<Pair<String,String>> listMeta = new ArrayList<>();
     private ArrayList<String> moreLinks = new ArrayList<>();
@@ -21,7 +21,7 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
         HashofFile = hashofFile;
         Timestamp = timestamp;
         SizeofFile = sizeofFile;
-        this.pkAdder = pkAdder;
+        this.publicAdressAdder = pkAdder;
         OriginalURL = originalURL;
 
         //}
@@ -31,7 +31,7 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
         HashofFile = hashofFile;
         Timestamp = TimerServer.toStringGetTime();
         SizeofFile = sizeofFile;
-        this.pkAdder = pkAdder;
+        this.publicAdressAdder = pkAdder;
         OriginalURL = originalURL;
     }
 
@@ -103,12 +103,12 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
         SizeofFile = sizeofFile;
     }
 
-    public String getPkAdder() {
-        return pkAdder;
+    public String getpublicAdressAdder() {
+        return publicAdressAdder;
     }
 
     public void setPkAdder(String pkAdder) {
-        this.pkAdder = pkAdder;
+        this.publicAdressAdder = pkAdder;
     }
 
     public String getOriginalURL() {
@@ -139,7 +139,7 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
     public String toString()
     {
         String sout = "";
-        sout = HashofFile + "_" + Timestamp + "_" + SizeofFile + "_" + pkAdder + "_" + OriginalURL;
+        sout = HashofFile + "_" + Timestamp + "_" + SizeofFile + "_" + publicAdressAdder + "_" + OriginalURL;
         String stemp = "";
         for (int i =0; i <= listMeta.size() - 1; i++)
         {
@@ -171,8 +171,8 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
         return (s.equals(sObj));
     }
 
-    public String getPrimaryKeyOfCreator() {
-        return pkAdder;
+    public String getPublicAddressOfCreator() {
+        return publicAdressAdder;
     }
 
     public ArrayList<Pair<String, String>> toCargoArraylistPairForSending()
@@ -189,7 +189,7 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
         listout.add(pairCur);
         pairCur = new Pair<>("Size of File", SizeofFile);
         listout.add(pairCur);
-        pairCur = new Pair<>("Primary Key Adder", pkAdder);
+        pairCur = new Pair<>("Public Address Adder", publicAdressAdder);
         listout.add(pairCur);
         pairCur = new Pair<>("Original Url", OriginalURL);
         listout.add(pairCur);
