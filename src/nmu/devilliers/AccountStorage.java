@@ -30,6 +30,28 @@ public class AccountStorage
         return treeSet;
     }
 
+    public int getPos(String s)
+    {
+        int ipos = 0;
+        for (String scur : treeSet)
+        {
+            if (scur.compareTo(s) == 0)
+            {
+                return ipos;
+            }
+            ipos = ipos + 1;
+        }
+
+        return ipos;
+    }
+
+    public int getSize()
+    {
+        return treeSet.size();
+    }
+
+
+
     public boolean containsAccount(Account curAccount)
     {
         return treeSet.contains(curAccount.getPublicAddress());

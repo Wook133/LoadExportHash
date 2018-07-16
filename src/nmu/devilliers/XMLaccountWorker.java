@@ -29,9 +29,14 @@ public class XMLaccountWorker {
 
        // treeWalk(cur);
         //Append(cur, new Account("de Villiers"));
-        Account ac = new Account("Casey");
-        System.out.println("Casey: "+ ac.getPublicAddress());
-        System.out.println(treeWalkFind(cur, ac));
+        Account ac = new Account("fd");
+        //System.out.println("Jack: "+ ac.getPublicAddress());
+        //System.out.println(treeWalkFind(cur, ac));
+
+
+        AccountStorage accS = getAllAccounts(cur);
+        System.out.println(accS.containsAccount(ac));
+
         //writeAccountsBack(cur);
         /*Account tofind = new Account();
         tofind.setPublicAddress("Tobiafs");
@@ -56,7 +61,6 @@ public class XMLaccountWorker {
 
     public static void treeWalk(Document document) {
         treeWalk(document.getRootElement());
-
     }
 
     public static void treeWalk(Element element) {
@@ -106,6 +110,7 @@ public class XMLaccountWorker {
     }
 
 
+
     /**
      * Find using Iterator
      * @param d
@@ -123,62 +128,6 @@ public class XMLaccountWorker {
         }
         return false;
     }
-
-    /*public static void treeWalk(Element element) {
-        for (int i = 0, size = element.nodeCount(); i < size; i++)
-        {
-            Node node = element.node(i);
-            System.out.println(element.attributeValue("Accounts"));
-            System.out.println(element.attributeValue("Account"));
-            System.out.println(element.attributeValue("PublicAddress"));
-            System.out.println(element.attributeValue("Tobias"));
-            System.out.println(node.getPath())
-            node.ge;
-            if (node instanceof Element)
-            {
-                treeWalk((Element) node);
-                System.out.println("Element: " + element.attributeValue("PublicAddress") + element.getText());
-            }
-            else
-            {
-                System.out.println("Element: " + element.attributeValue("PublicAddress"));
-                /*System.out.println("Current Element :"+ node.getName()
-                        + node.valueOf("@PublicAddress"));*/
-                    /*Attribute att = element.attribute("PublicAddress");
-                System.out.println("Data: " + att.getData());
-                System.out.println("Value: " + att.getValue());*/
-                // do something…
-            /*}
-        }
-    }*/
-
-    public static void tp()
-    {
-        try {
-            File inputFile = new File("NEW.xml");
-            SAXReader reader = new SAXReader();
-            Document document = reader.read( inputFile );
-
-            System.out.println("Root element :" + document.getRootElement().getName());
-
-            Element classElement = document.getRootElement();
-
-
-            List<Node> nodes = document.selectNodes("/Accounts/Account[@PublicAddress = 'Tobias']" );
-            System.out.println("----------------------------");
-
-            for (Node node : nodes) {
-                System.out.println("\nCurrent Element :"
-                        + node.getName());
-                System.out.println("PA : "
-                        + node.valueOf("@PublicAddress") );
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
 
     public static Document createDocument() {
@@ -230,18 +179,6 @@ public class XMLaccountWorker {
     }
 
     public static void write(Document document) throws IOException {
-
-        // lets write to a file
-       /* try (FileWriter fileWriter = new FileWriter("NEW.xml")) {
-            XMLWriter writer = new XMLWriter(fileWriter);
-            /*writer.write( document );
-            writer.close();*/
-            // Compact format to System.out
-           /* OutputFormat format = OutputFormat.createCompactFormat();
-            writer = new XMLWriter(System.out, format);
-            writer.write(document);
-            writer.close();
-        }*/
            try
            {
               /* FileWriter out = new FileWriter("NEW.xml");
@@ -258,14 +195,6 @@ public class XMLaccountWorker {
            {
                e.printStackTrace();
            }
-
-
-        // Pretty print the document to System.out
-       /* OutputFormat format = OutputFormat.createPrettyPrint();
-        writer = new XMLWriter(System.out, format);
-        writer.write( document );*/
-
-
     }
 
 
