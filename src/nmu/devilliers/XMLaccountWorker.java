@@ -17,15 +17,27 @@ import org.dom4j.Document;
 
 public class XMLaccountWorker {
 
+    //write to XML
+    //read from XML
+    //get from XML
+    //Query XML
+
     public static void main(String[] args) throws Exception {
         //Document f = createAccountDocument();
         File F = new File("NEW.xml");
         Document cur = parse(F);
-        writeAccountsBack(cur);
-        //AccountIterators(cur);
-        //Append(cur, new Account("Jack"));
-        //find(cur, new Account("Jack"));
-        //tp();
+
+       // treeWalk(cur);
+        //Append(cur, new Account("de Villiers"));
+        Account ac = new Account("Casey");
+        System.out.println("Casey: "+ ac.getPublicAddress());
+        System.out.println(treeWalkFind(cur, ac));
+        //writeAccountsBack(cur);
+        /*Account tofind = new Account();
+        tofind.setPublicAddress("Tobiafs");
+        System.out.println(find(cur, tofind));*/
+
+
     }
 
 
@@ -44,13 +56,84 @@ public class XMLaccountWorker {
 
     public static void treeWalk(Document document) {
         treeWalk(document.getRootElement());
+
     }
 
     public static void treeWalk(Element element) {
+        for ( int i = 0, size = element.nodeCount(); i < size; i++ ) {
+            Node node = element.node(i);
+            if ( node instanceof Element ) {
+                treeWalk( (Element) node );
+            }
+            else {
+                String s = element.attributeValue("PublicAddress");
+                if (s != null) {
+                    System.out.println("Should Work: " + s);
+                }
+                // do something....
+            }
+        }
+    }
+
+    public static boolean treeWalkFind(Document document, Account accFind) {
+        boolean bfound = false;
+        bfound = treeWalkFind(document.getRootElement(), accFind);
+        System.out.println(bfound);
+        return bfound;
+
+    }
+
+    public static boolean treeWalkFind(Element element, Account accFind) {
+        for ( int i = 0, size = element.nodeCount(); i < size; i++ ) {
+            Node node = element.node(i);
+            if ( node instanceof Element ) {
+                if (treeWalkFind( (Element) node, accFind ))
+                    return true;
+            }
+            else {
+                String s = element.attributeValue("PublicAddress");
+                if ((s != null))
+                {
+                    if (s.compareTo(accFind.getPublicAddress()) == 0) {
+                        return true;
+                    }
+                }
+
+                // do something....
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * Find using Iterator
+     * @param d
+     * @param curAccount
+     * @return true if PublicAddress found else false
+     */
+    public static boolean find(Document d, Account curAccount)
+    {
+        Element root = d.getRootElement();
+        for (Iterator<Element> it = root.elementIterator(); it.hasNext();) {
+            Element element = it.next();
+            Account curAcc = new Account();
+            String s = element.attributeValue("PublicAddress");
+            if (s.compareTo(curAccount.getPublicAddress()) == 0){return true;}
+        }
+        return false;
+    }
+
+    /*public static void treeWalk(Element element) {
         for (int i = 0, size = element.nodeCount(); i < size; i++)
         {
             Node node = element.node(i);
-
+            System.out.println(element.attributeValue("Accounts"));
+            System.out.println(element.attributeValue("Account"));
+            System.out.println(element.attributeValue("PublicAddress"));
+            System.out.println(element.attributeValue("Tobias"));
+            System.out.println(node.getPath())
+            node.ge;
             if (node instanceof Element)
             {
                 treeWalk((Element) node);
@@ -65,9 +148,9 @@ public class XMLaccountWorker {
                 System.out.println("Data: " + att.getData());
                 System.out.println("Value: " + att.getValue());*/
                 // do something…
-            }
+            /*}
         }
-    }
+    }*/
 
     public static void tp()
     {
@@ -97,14 +180,6 @@ public class XMLaccountWorker {
 
 
 
-
-    public static boolean find(Document d, Account curAccount)
-    {
-        boolean bfound = false;
-        treeWalk(d);
-
-        return bfound;
-    }
 
     public static Document createDocument() {
         Document document = DocumentHelper.createDocument();
@@ -142,36 +217,7 @@ public class XMLaccountWorker {
 
             Element root = document.getRootElement();
             Element Account = root.addElement("Account");
-            Account.addAttribute("PublicAddress", curA.getPublicAddress());
-
-            writer.write(document);
-            writer.close();
-
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public static void AppendAll(Document document, AccountStorage AccStor) throws IOException
-    {
-        try
-        {
-            TreeSet<String> treesetToAdd = new TreeSet<>();
-            treesetToAdd = AccStor.getTreeSet();
-
-            FileWriter fileWriter = new FileWriter("NEW.xml");
-            OutputFormat format = OutputFormat.createPrettyPrint();
-            XMLWriter writer = new XMLWriter(fileWriter, format);
-
-            Element root = document.getRootElement();
-            for (String s : treesetToAdd)
-            {
-                Element Account = root.addElement("Account");
-                Account.addAttribute("PublicAddress", s);
-            }
-
+            Account.addAttribute("PublicAddress", curA.getPublicAddress()).addText(curA.getPublicAddress());
 
             writer.write(document);
             writer.close();
@@ -279,8 +325,6 @@ public class XMLaccountWorker {
         AccountStorage accSto = new AccountStorage();
         accSto = getAllAccounts(d);
         Document replaceDoc = createBlankAccountDocument(accSto);
-
-        //AppendAll(replaceDoc, accSto);
     }
 
     public static Document createBlankAccountDocument(AccountStorage AccStor)
@@ -299,7 +343,9 @@ public class XMLaccountWorker {
             for (String s : treesetToAdd)
             {
                 Element Account = root.addElement("Account");
-                Account.addAttribute("PublicAddress", s);
+                Account cA = new Account();
+                cA.setPublicAddress(s);
+                Account.addAttribute("PublicAddress", s).addText(cA.getPublicAddress());
             }
             writer.write(document);
             writer.close();
