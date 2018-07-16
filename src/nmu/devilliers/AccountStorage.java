@@ -15,15 +15,32 @@ public class AccountStorage
 {
     TreeSet<String> treeSet;
 
+    public AccountStorage() {
+        this.treeSet = new TreeSet<>();
+    }
+
     public boolean addAccount(Account curAccount)
     {
-        boolean added = treeSet.add(curAccount.getPublicAddress());
+        boolean added = false;
+        added = treeSet.add(curAccount.getPublicAddress());
         return added;
+    }
+
+    public TreeSet<String> getTreeSet() {
+        return treeSet;
     }
 
     public boolean containsAccount(Account curAccount)
     {
         return treeSet.contains(curAccount.getPublicAddress());
+    }
+
+    public void print()
+    {
+        for (String s : treeSet)
+        {
+            System.out.println("Account:" + s);
+        }
     }
 
 
