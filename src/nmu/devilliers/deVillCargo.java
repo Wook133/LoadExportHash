@@ -187,11 +187,11 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
         listout.add(pairCur);
         pairCur = new Pair<>("Timestamp", Timestamp);
         listout.add(pairCur);
-        pairCur = new Pair<>("Size of File", SizeofFile);
+        pairCur = new Pair<>("Size_of_File", SizeofFile);
         listout.add(pairCur);
-        pairCur = new Pair<>("Public Address Adder", publicAdressAdder);
+        pairCur = new Pair<>("Public_Address_Adder", publicAdressAdder);
         listout.add(pairCur);
-        pairCur = new Pair<>("Original Url", OriginalURL);
+        pairCur = new Pair<>("Original_Url", OriginalURL);
         listout.add(pairCur);
         for (int i = 0; i <= listMeta.size() - 1; i++)
         {
@@ -200,7 +200,7 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
         }
         for (int i = 0; i <= moreLinks.size() - 1; i++)
         {
-            pairCur = new Pair<>("Link " + i + ": ", moreLinks.get(i));
+            pairCur = new Pair<>("Link_" + i + ":", moreLinks.get(i));
             listout.add(pairCur);
         }
         return listout;

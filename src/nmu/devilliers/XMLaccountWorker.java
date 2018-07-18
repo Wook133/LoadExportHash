@@ -29,15 +29,17 @@ public class XMLaccountWorker {
 
        // treeWalk(cur);
         //Append(cur, new Account("de Villiers"));
-        Account ac = new Account("fd");
+        Account ac = new Account("John");
+        System.out.println(ac.getPublicAddress());
         //System.out.println("Jack: "+ ac.getPublicAddress());
         //System.out.println(treeWalkFind(cur, ac));
 
 
         AccountStorage accS = getAllAccounts(cur);
+
         System.out.println(accS.containsAccount(ac));
 
-        //writeAccountsBack(cur);
+        writeAccountsBack(cur);
         /*Account tofind = new Account();
         tofind.setPublicAddress("Tobiafs");
         System.out.println(find(cur, tofind));*/
@@ -274,7 +276,8 @@ public class XMLaccountWorker {
                 Element Account = root.addElement("Account");
                 Account cA = new Account();
                 cA.setPublicAddress(s);
-                Account.addAttribute("PublicAddress", s).addText(cA.getPublicAddress());
+                //Account.addAttribute("PublicAddress", s).addText(cA.getPublicAddress());
+                Account.addAttribute("PublicAddress", s);//.addText(cA.getPublicAddress());
             }
             writer.write(document);
             writer.close();
