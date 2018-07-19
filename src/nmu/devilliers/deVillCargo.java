@@ -9,11 +9,11 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
     private String HashofFile;
     private String Timestamp;
     private String SizeofFile;
-    private String publicAdressAdder;
+    private String publicAddressAdder;
     private String OriginalURL;
-    private ArrayList<Pair<String,String>> listMeta = new ArrayList<>();
+    private ArrayList<Pair<String,String>> listMeta = new ArrayList<>();//removeMeta?
     private ArrayList<String> moreLinks = new ArrayList<>();
-    private Integer sizeofSource;
+    private Integer sizeofSource;//Remove?
 
     public deVillCargo(String hashofFile, String timestamp, String sizeofFile, String pkAdder, String originalURL) {
         // LSize = (long)hashofFile.length() + (long)timestamp.length() + (long)sizeofFile.length() + (long)pkAdder.length() + (long)originalURL.length();
@@ -21,7 +21,7 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
         HashofFile = hashofFile;
         Timestamp = timestamp;
         SizeofFile = sizeofFile;
-        this.publicAdressAdder = pkAdder;
+        this.publicAddressAdder = pkAdder;
         OriginalURL = originalURL;
 
         //}
@@ -31,9 +31,12 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
         HashofFile = hashofFile;
         Timestamp = TimerServer.toStringGetTime();
         SizeofFile = sizeofFile;
-        this.publicAdressAdder = pkAdder;
+        this.publicAddressAdder = pkAdder;
         OriginalURL = originalURL;
     }
+    public deVillCargo() {
+    }
+
 
     public Pair<String, String> removeMeta(int i)
     {
@@ -77,6 +80,15 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
         else
             return false;
     }
+    public Boolean addLinks(ArrayList<String> listIn)
+    {
+        boolean badded = false;
+        for (String s : listIn)
+        {
+            badded = addLink(s);
+        }
+        return badded;
+    }
 
 
     public String getHashofFile() {
@@ -104,11 +116,11 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
     }
 
     public String getpublicAdressAdder() {
-        return publicAdressAdder;
+        return publicAddressAdder;
     }
 
     public void setPkAdder(String pkAdder) {
-        this.publicAdressAdder = pkAdder;
+        this.publicAddressAdder = pkAdder;
     }
 
     public String getOriginalURL() {
@@ -139,22 +151,50 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
     public String toString()
     {
         String sout = "";
-        sout = HashofFile + "_" + Timestamp + "_" + SizeofFile + "_" + publicAdressAdder + "_" + OriginalURL;
+        sout = HashofFile + "_" + Timestamp + "_" + SizeofFile + "_" + publicAddressAdder + "_" + OriginalURL;
         String stemp = "";
-        for (int i =0; i <= listMeta.size() - 1; i++)
+        /*for (int i =0; i <= listMeta.size() - 1; i++)
         {
             Pair pcur = listMeta.get(i);
             String skey = (String)pcur.getKey();
             String svalue = (String)pcur.getValue();
             stemp = stemp + "_" + skey + "_" + svalue;
-        }
+        }*/
         sout = sout + "_" + stemp;
         stemp = "";
-        for (int j = 0; j <= moreLinks.size() - 1; j++)
-        {
-            stemp = stemp + "_" + moreLinks.get(j);
+        if (moreLinks.size() < 100) {
+            for (int j = 0; j <= moreLinks.size() - 1; j++) {
+                stemp = stemp + "_" + moreLinks.get(j);
+            }
+            if (moreLinks.size() > 0) {
+                sout = sout + "_" + stemp;
+            }
         }
+        return sout;
+    }
+
+    public String toStringWithHash()
+    {
+        String sout = "";
+        sout = hashCargo() +"_"+ HashofFile + "_" + Timestamp + "_" + SizeofFile + "_" + publicAddressAdder + "_" + OriginalURL;
+        String stemp = "";
+        /*for (int i =0; i <= listMeta.size() - 1; i++)
+        {
+            Pair pcur = listMeta.get(i);
+            String skey = (String)pcur.getKey();
+            String svalue = (String)pcur.getValue();
+            stemp = stemp + "_" + skey + "_" + svalue;
+        }*/
         sout = sout + "_" + stemp;
+        stemp = "";
+        if (moreLinks.size() < 100) {
+            for (int j = 0; j <= moreLinks.size() - 1; j++) {
+                stemp = stemp + "_" + moreLinks.get(j);
+            }
+            if (moreLinks.size() > 0) {
+                sout = sout + "_" + stemp;
+            }
+        }
         return sout;
     }
 
@@ -172,7 +212,7 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
     }
 
     public String getPublicAddressOfCreator() {
-        return publicAdressAdder;
+        return publicAddressAdder;
     }
 
     public ArrayList<Pair<String, String>> toCargoArraylistPairForSending()
@@ -183,24 +223,26 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
         private ArrayList<Pair<String,String>> listMeta = new ArrayList<Pair<String,String>>();
         private ArrayList<String> moreLinks = new ArrayList<String>();
         */
-        Pair<String, String> pairCur = new Pair<>("Hash", HashofFile);
+        Pair<String, String> pairCur = new Pair<>("HashofCargo", this.hashCargo());
+        listout.add(pairCur);
+        pairCur = new Pair<>("HashofFile", HashofFile);
         listout.add(pairCur);
         pairCur = new Pair<>("Timestamp", Timestamp);
         listout.add(pairCur);
-        pairCur = new Pair<>("Size_of_File", SizeofFile);
+        pairCur = new Pair<>("SizeofFile", SizeofFile);
         listout.add(pairCur);
-        pairCur = new Pair<>("Public_Address_Adder", publicAdressAdder);
+        pairCur = new Pair<>("PublicAddressAdder", publicAddressAdder);
         listout.add(pairCur);
-        pairCur = new Pair<>("Original_Url", OriginalURL);
+        pairCur = new Pair<>("OriginalURL", OriginalURL);
         listout.add(pairCur);
-        for (int i = 0; i <= listMeta.size() - 1; i++)
+        /*for (int i = 0; i <= listMeta.size() - 1; i++)
         {
             pairCur = new Pair<>(listMeta.get(i).getKey(), listMeta.get(i).getValue());
             listout.add(pairCur);
-        }
+        }*/
         for (int i = 0; i <= moreLinks.size() - 1; i++)
         {
-            pairCur = new Pair<>("Link_" + i + ":", moreLinks.get(i));
+            pairCur = new Pair<>("AdditionalURL" + i + ":", moreLinks.get(i));
             listout.add(pairCur);
         }
         return listout;
@@ -242,6 +284,25 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
     public static int getByteLengthInteger()
     {
         return Integer.BYTES;
+    }
+
+    public boolean verifyHash()
+    {//bufferDown
+        try {
+            downloadBuffer dBuf = new downloadBuffer();
+            String sDownloadHash = dBuf.bufferDown(this.getOriginalURL(), false);
+            if (sDownloadHash.compareTo(this.getHashofFile()) == 0)
+            {
+                return true;
+            }
+            else
+                return false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("de Vill Source, No Such Class or Method: General Hash");
+        }
+        return false;
     }
 
 

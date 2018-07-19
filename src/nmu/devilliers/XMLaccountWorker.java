@@ -27,19 +27,21 @@ public class XMLaccountWorker {
         File F = new File("NEW.xml");
         Document cur = parse(F);
 
-       // treeWalk(cur);
+
+
+        treeWalk(cur);
         //Append(cur, new Account("de Villiers"));
-        Account ac = new Account("John");
-        System.out.println(ac.getPublicAddress());
+        //Account ac = new Account("John");
+        //System.out.println(ac.getPublicAddress());
         //System.out.println("Jack: "+ ac.getPublicAddress());
         //System.out.println(treeWalkFind(cur, ac));
 
 
-        AccountStorage accS = getAllAccounts(cur);
+       // AccountStorage accS = getAllAccounts(cur);
 
-        System.out.println(accS.containsAccount(ac));
+        //System.out.println(accS.containsAccount(ac));
 
-        writeAccountsBack(cur);
+        //writeAccountsBack(cur);
         /*Account tofind = new Account();
         tofind.setPublicAddress("Tobiafs");
         System.out.println(find(cur, tofind));*/
@@ -73,9 +75,12 @@ public class XMLaccountWorker {
             }
             else {
                 String s = element.attributeValue("PublicAddress");
+                String s1 = element.getText();
                 if (s != null) {
-                    System.out.println("Should Work: " + s);
+                    System.out.println("Should Work: " + s + " : " + s1);
                 }
+
+
                 // do something....
             }
         }

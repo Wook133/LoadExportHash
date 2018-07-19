@@ -4,7 +4,7 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 
-public class Source extends Leaf<deVillCargo> {
+public class Source extends Leaf<deVillCargo> implements Comparable<deVillCargo>{
 
     public Source(deVillCargo cargo) {
         super(cargo);
@@ -52,7 +52,8 @@ public class Source extends Leaf<deVillCargo> {
 
     @Override
     public String hashCargo() {
-        return this.cargo.getHashofFile();
+        return this.cargo.hashCargo();
+       // return this.cargo.getHashofFile();
     }
 
     @Override
@@ -96,5 +97,24 @@ public class Source extends Leaf<deVillCargo> {
             return true;
         else
             return false;
+    }
+
+    @Override
+    public int compareTo(deVillCargo o) {
+        int i = this.hashCargo().compareTo(o.hashCargo());
+        if (i == 0)
+        {
+            int j = this.toString().compareTo(o.toString());
+            if (j == 0)
+            {
+                return 0;
+            }
+            else
+                return j;
+        }
+        else
+            return i;
+
+
     }
 }
