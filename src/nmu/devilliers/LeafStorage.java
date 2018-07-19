@@ -22,6 +22,20 @@ public class LeafStorage {
     public TreeSet<deVillCargo> getTreeSet() {
         return treeSet;
     }
+    public deVillCargo get(int ipos)
+    {
+        int i = 0;
+        for (deVillCargo dvcCur : treeSet)
+        {
+            if (i == ipos)
+            {
+                return dvcCur;
+            }
+            i = i + 1;
+        }
+        return null;
+    }
+
 
     public int getPos(deVillCargo findSource)
     {

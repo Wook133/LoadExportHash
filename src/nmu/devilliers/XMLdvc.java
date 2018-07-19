@@ -17,7 +17,8 @@ import org.dom4j.Document;
 public class XMLdvc {
 
     public static void main(String[] args) throws Exception {
-        File F = new File("Leaves.xml");
+        String sFile = "Leaves.xml";
+        File F = new File(sFile);
         Document cur = parse(F);
 
        // TreeSet<deVillCargo> treeDVC = new TreeSet<>(deVillCargo::compareTo);
@@ -28,17 +29,24 @@ public class XMLdvc {
         list = getAllLeavesList(cur);
         System.out.println(list.size());*/
 
-        deVillCargo dvc = new deVillCargo("h1", "t1", "s1", "PA1", "OURL1");
-        dvc.addLink("AURL0");
-        dvc.addLink("AURL1");
-        System.out.println(dvc.toStringWithHash());
-        treeWalkFind(cur,dvc);
+        //deVillCargo dvc1 = new deVillCargo("h1", "t1", "s1", "PA1", "OURL1");
+        //dvc1.addLink("AURL0");
+        //dvc1.addLink("AURL1");
+
+        //System.out.println(dvc1.toStringWithHash());
+        //treeWalkFind(cur ,dvc1);
         LeafStorage LSS = new LeafStorage();
         LSS = getAllLeavesTree(cur);
         System.out.println(LSS.getSize());
         LSS.print();
-
-
+        cur = writeAccountsBack(cur);
+      /*  deVillCargo dvc2 = new deVillCargo("h7", "t7", "s7", "PA7", "OURL7");
+        dvc2.addLink("AURL0");
+        dvc2.addLink("AURL1");
+        dvc2.addLink("AURL2");
+        Append(cur, dvc2);
+        cur = writeAccountsBack(cur);*/
+        /*write(cur);*/
 
 
         //System.out.println(cur.getRootElement().getText().toString());
@@ -436,26 +444,99 @@ public class XMLdvc {
         return leafStore;
     }
 
-
-    /**fix
-     * Find using Iterator
-     * @param d
-     * @param curAccount
-     * @return true if PublicAddress found else false
-     */
-    public static boolean find(Document d, Account curAccount, Source curS)
+    public static void Append(Document document, deVillCargo curA) throws IOException
     {
-        Element root = d.getRootElement();
-        for (Iterator<Element> it = root.elementIterator(); it.hasNext();) {
-            Element element = it.next();
-            Source curSource = new Source(new deVillCargo());
+        try
+        {
+            FileWriter fileWriter = new FileWriter("Leaves.xml");
+            OutputFormat format = OutputFormat.createPrettyPrint();
+            XMLWriter writer = new XMLWriter(fileWriter, format);
 
-            Account curAcc = new Account();
-            String s = element.attributeValue("PublicAddress");
-            if (s.compareTo(curAccount.getPublicAddress()) == 0){return true;}
+            String sHash = curA.hashCargo();
+            Element root = document.getRootElement();
+            Element sourceCurA= root.addElement("Source")
+                    .addAttribute("HashofCargo",        sHash)
+                    .addAttribute("HashofFile",         curA.getHashofFile())
+                    .addAttribute("Timestamp",          curA.getTimestamp())
+                    .addAttribute("SizeofFile",         curA.getSizeofFile())
+                    .addAttribute("PublicAddressAdder", curA.getPublicAddressOfCreator())
+                    .addAttribute("OriginalURL",        curA.getOriginalURL());
+            ArrayList<String> listURL = new ArrayList<>();
+            listURL = curA.getMoreLinks();
+            int icount = 0;
+            for (String scurURL : listURL)
+            {
+                sourceCurA.addAttribute("AdditionalURL"+ icount, scurURL);
+                icount = icount + 1;
+            }
+            sourceCurA.addText(sHash);
+            writer.write(document);
+            writer.close();
+
         }
-        return false;
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
+
+    public static Document writeAccountsBack(Document d) throws Exception
+    {
+        LeafStorage leafSto = new LeafStorage();
+        leafSto = getAllLeavesTree(d);
+        Document replaceDoc = createBlankAccountDocument(leafSto);
+        return replaceDoc;
+    }
+
+    public static Document createBlankAccountDocument(LeafStorage AccStor)
+    {
+        Document document = DocumentHelper.createDocument();
+        Element root = document.addElement("PoolLeaves");
+
+        try
+        {
+            TreeSet<deVillCargo> treesetToAdd = new TreeSet<>();
+            treesetToAdd = AccStor.getTreeSet();
+            for (deVillCargo d : treesetToAdd)
+            {
+                System.out.println(d.toStringWithHash());
+            }
+
+            FileWriter fileWriter = new FileWriter("Leaves.xml");
+            OutputFormat format = OutputFormat.createPrettyPrint();
+            XMLWriter writer = new XMLWriter(fileWriter, format);
+            for (deVillCargo curA : treesetToAdd)
+            {
+                String sHash = curA.hashCargo();
+                Element sourceCurA= root.addElement("Source")
+                        .addAttribute("HashofCargo",        sHash)
+                        .addAttribute("HashofFile",         curA.getHashofFile())
+                        .addAttribute("Timestamp",          curA.getTimestamp())
+                        .addAttribute("SizeofFile",         curA.getSizeofFile())
+                        .addAttribute("PublicAddressAdder", curA.getPublicAddressOfCreator())
+                        .addAttribute("OriginalURL",        curA.getOriginalURL());
+                ArrayList<String> listURL = new ArrayList<>();
+                listURL = curA.getMoreLinks();
+                int icount = 0;
+                for (String scurURL : listURL)
+                {
+                    sourceCurA.addAttribute("AdditionalURL"+ icount, scurURL);
+                }
+                sourceCurA.addText(sHash);
+            }
+            writer.write(document);
+            writer.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return document;
+    }
+
+
+
 
 
 

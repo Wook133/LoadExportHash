@@ -73,7 +73,6 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
     }
     public Boolean addLink(String i)
     {
-
         if (moreLinks.size() < 1000)
         {
             moreLinks.add(i);
@@ -142,7 +141,12 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
     }
 
     public ArrayList<String> getMoreLinks() {
-        return moreLinks;
+        ArrayList<String> sout = new ArrayList<>();
+        for (String s : moreLinks)
+        {
+            sout.add(s);
+        }
+        return sout;
     }
 
     public void setMoreLinks(ArrayList<String> moreLinks) {
