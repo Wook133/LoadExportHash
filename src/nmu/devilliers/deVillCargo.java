@@ -3,9 +3,11 @@ package nmu.devilliers;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public final class deVillCargo implements java.io.Serializable, Comparable<deVillCargo>
+public final class deVillCargo implements java.io.Serializable, Comparable<deVillCargo>, Comparator<deVillCargo>
 {
+    private String shash = "";
     private String HashofFile;
     private String Timestamp;
     private String SizeofFile;
@@ -185,7 +187,7 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
             String svalue = (String)pcur.getValue();
             stemp = stemp + "_" + skey + "_" + svalue;
         }*/
-        sout = sout + "_" + stemp;
+        sout = sout;
         stemp = "";
         if (moreLinks.size() < 100) {
             for (int j = 0; j <= moreLinks.size() - 1; j++) {
@@ -199,9 +201,17 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
     }
 
     @Override
+    public int compare(deVillCargo o1, deVillCargo o2) {
+        String s = o1.toStringWithHash();
+        String sObj = o2.toStringWithHash();
+        return (s.compareTo(sObj));
+    }
+
+    @Override
     public int compareTo(deVillCargo o) {
-        String s = this.toString();
-        String sObj = o.toString();
+        //System.out.println("Ey");
+        String s = this.toStringWithHash();
+        String sObj = o.toStringWithHash();
         return (s.compareTo(sObj));
     }
 
@@ -286,6 +296,8 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
         return Integer.BYTES;
     }
 
+
+
     public boolean verifyHash()
     {//bufferDown
         try {
@@ -303,6 +315,18 @@ public final class deVillCargo implements java.io.Serializable, Comparable<deVil
             System.out.println("de Vill Source, No Such Class or Method: General Hash");
         }
         return false;
+    }
+
+    public class deVillCargoComparator implements Comparator<deVillCargo> {
+        @Override
+        public int compare(deVillCargo o1, deVillCargo o2) {
+            if(o1.hashCargo().compareTo(o2.hashCargo()) == 0)
+                return 0;
+            else if (o1.hashCargo().compareTo(o2.hashCargo()) == -1)
+                return -1;
+            else
+                return 1;
+        }
     }
 
 

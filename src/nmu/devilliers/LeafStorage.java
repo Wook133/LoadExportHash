@@ -1,18 +1,21 @@
 package nmu.devilliers;
 
+import java.util.Comparator;
+import java.util.Set;
 import java.util.TreeSet;
 
 public class LeafStorage {
-    TreeSet<deVillCargo> treeSet;
+    TreeSet<deVillCargo> treeSet ;//= new TreeSet<>(deVillCargo::compareTo);
 
     public LeafStorage() {
-        this.treeSet = new TreeSet<>();
+        this.treeSet = new TreeSet<deVillCargo>();
     }
 
     public boolean addSource(deVillCargo curSource)
     {
         boolean added = false;
         added = treeSet.add(curSource);
+        //System.out.println(added);
         return added;
     }
 
@@ -60,9 +63,17 @@ public class LeafStorage {
 
     public void print()
     {
+        System.out.println(treeSet.size());
         for (deVillCargo curLeaf : treeSet)
         {
-            System.out.println(curLeaf.toStringWithHash());
+            System.out.println("Hello : " + curLeaf.toStringWithHash());
         }
     }
+
+   /*
+    public int compare(deVillCargo o1, deVillCargo o2) {
+        String s = o1.toStringWithHash();
+        String sObj = o2.toStringWithHash();
+        return (s.compareTo(sObj));
+    }*/
 }

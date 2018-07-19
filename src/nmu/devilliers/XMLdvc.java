@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 import javafx.util.Pair;
 import org.dom4j.*;
@@ -23,15 +20,48 @@ public class XMLdvc {
         File F = new File("Leaves.xml");
         Document cur = parse(F);
 
+       // TreeSet<deVillCargo> treeDVC = new TreeSet<>(deVillCargo::compareTo);
+        /*TreeSet<deVillCargo> treeDVC = new TreeSet<>();
+        treeDVC.add(new deVillCargo());*/
+
+       /* ArrayList<deVillCargo> list = new ArrayList<>();
+        list = getAllLeavesList(cur);
+        System.out.println(list.size());*/
+
+        deVillCargo dvc = new deVillCargo("h1", "t1", "s1", "PA1", "OURL1");
+        dvc.addLink("AURL0");
+        dvc.addLink("AURL1");
+        System.out.println(dvc.toStringWithHash());
+        treeWalkFind(cur,dvc);
+        LeafStorage LSS = new LeafStorage();
+        LSS = getAllLeavesTree(cur);
+        System.out.println(LSS.getSize());
+        LSS.print();
+
+
 
 
         //System.out.println(cur.getRootElement().getText().toString());
-        LeafStorage lSS = new LeafStorage();
-        lSS = treeWalkGet(cur);
-        lSS.print();
+
+
+
+        //System.out.println(list.size());
+
 
        // write(createDocument());
     }
+
+    /*public class deVillCargoComparator implements Comparator<deVillCargo> {
+        @Override
+        public int compare(deVillCargo o1, deVillCargo o2) {
+            if(o1.hashCargo().compareTo(o2.hashCargo()) == 0)
+                return 0;
+            else if (o1.hashCargo().compareTo(o2.hashCargo()) == -1)
+                return -1;
+            else
+                return 1;
+        }
+    }*/
 
 
     public static Document parse(URL url) throws DocumentException {
@@ -69,16 +99,16 @@ public class XMLdvc {
         }
     }
 
-    public static LeafStorage treeWalkGet(Document document)
+    public static ArrayList<deVillCargo> treeWalkGet(Document document)
     {
-        LeafStorage lsS = new LeafStorage();
-        lsS = treeWalkGet(document.getRootElement());
-        return lsS;
+        ArrayList<deVillCargo> treeCur = new ArrayList<>();
+        treeCur.addAll(treeWalkGet(document.getRootElement()));
+        return treeCur;
     }
 
-    public static LeafStorage treeWalkGet(Element element)
+    public static ArrayList<deVillCargo> treeWalkGet(Element element)
     {
-        LeafStorage lsS = new LeafStorage();
+        ArrayList<deVillCargo> treeCur = new ArrayList<>();
         for ( int i = 0, size = element.nodeCount(); i < size; i++ ) {
             Node node = element.node(i);
             if ( node instanceof Element ) {
@@ -89,7 +119,7 @@ public class XMLdvc {
                 Iterator<Attribute> itrA = element.attributeIterator();
                 String sType = element.getName();
                 if (sType.compareTo("Source") == 0) {
-                    System.out.println(sType);
+                    //System.out.println(sType);
                     String HashofFile           = "";
                     String sHashCargo           = "";
                     String Timestamp            = "";
@@ -139,47 +169,36 @@ public class XMLdvc {
                             break;
                             default:
                             {
-                               // System.out.println(sAttributeName + " : " + sAttributeValue);
                                 String sCombine = "AdditionalURL"+iLinkCounter;
                                 if (sAttributeName.compareTo(sCombine) == 0)
                                 {
                                     moreLinks.add(sAttributeValue);
-                                    //System.out.println(sAttributeValue);
                                     iLinkCounter = iLinkCounter+1;
-
                                 }
-                              /*  String scombine = "AdditionalURL" + Integer.toString(iLinkCounter);
-                                System.out.println(scombine);
-                                if (sAttributeName.compareTo(scombine) == 0)
-                                {
-                                    moreLinks.add(sAttributeValue);
-                                    iLinkCounter = iLinkCounter+1;
-                                }*/
                             }
                             break;
                         }
-
                     }
                     deVillCargo dvcCur = new deVillCargo(HashofFile, Timestamp, SizeofFile, publicAddressAdder, OriginalURL);
-
                     dvcCur.addLinks(moreLinks);
-                    System.out.println(dvcCur.toStringWithHash());
-                    //Source sourceCur = new Source(dvcCur);
-                    lsS.addSource(dvcCur);
+                    treeCur.add(dvcCur);
+                    //System.out.println(dvcCur.toStringWithHash());
+                    ;
                 }
             }
         }
-        return lsS;
+        System.out.println(treeCur.size());
+        return treeCur;
     }
 
-    public static boolean treeWalkFind(Document document, Account accFind) {
+    public static boolean treeWalkFind(Document document, deVillCargo accFind) {
         boolean bfound = false;
         bfound = treeWalkFind(document.getRootElement(), accFind);
-        System.out.println(bfound);
+       // System.out.println(bfound);
         return bfound;
     }
 
-    public static boolean treeWalkFind(Element element, Account accFind) {
+    public static boolean treeWalkFind(Element element, deVillCargo accFind) {
         for ( int i = 0, size = element.nodeCount(); i < size; i++ ) {
             Node node = element.node(i);
             if ( node instanceof Element ) {
@@ -187,10 +206,10 @@ public class XMLdvc {
                     return true;
             }
             else {
-                String s = element.attributeValue("CargoHash");
+                String s = element.attributeValue("HashofCargo");
                 if ((s != null))
                 {
-                    if (s.compareTo(accFind.getPublicAddress()) == 0) {
+                    if (s.compareTo(accFind.hashCargo()) == 0) {
                         return true;
                     }
                 }
@@ -227,14 +246,14 @@ public class XMLdvc {
 
         Element root = document.addElement("PoolLeaves");
         Element source1 = root.addElement("Source")
-                .addAttribute("HashofCargo", "HC0")
-                .addAttribute("HashofFile", "h0")
-                .addAttribute("Timestamp", "t0")
-                .addAttribute("SizeofFile", "s0")
+                .addAttribute("HashofCargo",        "HC0")
+                .addAttribute("HashofFile",         "h0")
+                .addAttribute("Timestamp",          "t0")
+                .addAttribute("SizeofFile",         "s0")
                 .addAttribute("PublicAddressAdder", "PA0")
-                .addAttribute("OriginalURL", "OURL0")
-                .addAttribute("AdditionalURL", "AURLO")
-                .addAttribute("AdditionalURL1", "AURL1").addText("HC0");
+                .addAttribute("OriginalURL",        "OURL0")
+                .addAttribute("AdditionalURL",      "AURLO")
+                .addAttribute("AdditionalURL1",     "AURL1").addText("HC0");
 
 
 
@@ -281,22 +300,139 @@ public class XMLdvc {
      * @return
      * @throws Exception
      */
-    public static LeafStorage getAllLeaves(Document document) throws Exception
-    {
+    public static ArrayList<deVillCargo> getAllLeavesList(Document document) throws Exception {
         LeafStorage leafStore = new LeafStorage();
+        ArrayList<deVillCargo> listOut = new ArrayList<>();
 
         Element root = document.getRootElement();
-        for (Iterator<Element> it = root.elementIterator(); it.hasNext();) {
+        for (Iterator<Element> it = root.elementIterator(); it.hasNext(); ) {
             Element element = it.next();
-            //System.out.println("Element: " + element.attributeValue("PublicAddress"));
-            Account curAcc = new Account();
-            String s = element.attributeValue("PublicAddress");
-            //System.out.println("Loop: "+ s);
-            curAcc.setPublicAddress(s);
-            //AccStor.addAccount(curAcc);
-            // do something
+            Iterator<Attribute> itrA = element.attributeIterator();
+            String sType = element.getName();
+            if (sType.compareTo("Source") == 0) {
+                //System.out.println(sType);
+                String HashofFile = "";
+                String sHashCargo = "";
+                String Timestamp = "";
+                String SizeofFile = "";
+                String publicAddressAdder = "";
+                String OriginalURL = "";
+
+                ArrayList<String> moreLinks = new ArrayList<>();
+                int iLinkCounter = 0;
+                while (itrA.hasNext()) {
+                    Attribute curA = itrA.next();
+                    String sAttributeName = curA.getName();
+                    String sAttributeValue = curA.getValue();
+
+                    switch (sAttributeName) {
+                        case "HashofCargo": {
+                            sHashCargo = sAttributeValue;
+                        }
+                        break;
+                        case "HashofFile": {
+                            HashofFile = sAttributeValue;
+                        }
+                        break;
+                        case "Timestamp": {
+                            Timestamp = sAttributeValue;
+                        }
+                        break;
+                        case "SizeofFile": {
+                            SizeofFile = sAttributeValue;
+                        }
+                        break;
+                        case "PublicAddressAdder": {
+                            publicAddressAdder = sAttributeValue;
+                        }
+                        break;
+                        case "OriginalURL": {
+                            OriginalURL = sAttributeValue;
+                        }
+                        break;
+                        default: {
+                            String sCombine = "AdditionalURL" + iLinkCounter;
+                            if (sAttributeName.compareTo(sCombine) == 0) {
+                                moreLinks.add(sAttributeValue);
+                                iLinkCounter = iLinkCounter + 1;
+                            }
+                        }
+                        break;
+                    }
+                }
+                deVillCargo dvcCur = new deVillCargo(HashofFile, Timestamp, SizeofFile, publicAddressAdder, OriginalURL);
+                dvcCur.addLinks(moreLinks);
+                listOut.add(dvcCur);
+            }
         }
-        //AccStor.print();
+        return listOut;
+    }
+
+    public static LeafStorage getAllLeavesTree(Document document) throws Exception {
+        LeafStorage leafStore = new LeafStorage();
+        //ArrayList<deVillCargo> listOut = new ArrayList<>();
+
+        Element root = document.getRootElement();
+        for (Iterator<Element> it = root.elementIterator(); it.hasNext(); ) {
+            Element element = it.next();
+            Iterator<Attribute> itrA = element.attributeIterator();
+            String sType = element.getName();
+            if (sType.compareTo("Source") == 0) {
+                //System.out.println(sType);
+                String HashofFile = "";
+                String sHashCargo = "";
+                String Timestamp = "";
+                String SizeofFile = "";
+                String publicAddressAdder = "";
+                String OriginalURL = "";
+
+                ArrayList<String> moreLinks = new ArrayList<>();
+                int iLinkCounter = 0;
+                while (itrA.hasNext()) {
+                    Attribute curA = itrA.next();
+                    String sAttributeName = curA.getName();
+                    String sAttributeValue = curA.getValue();
+
+                    switch (sAttributeName) {
+                        case "HashofCargo": {
+                            sHashCargo = sAttributeValue;
+                        }
+                        break;
+                        case "HashofFile": {
+                            HashofFile = sAttributeValue;
+                        }
+                        break;
+                        case "Timestamp": {
+                            Timestamp = sAttributeValue;
+                        }
+                        break;
+                        case "SizeofFile": {
+                            SizeofFile = sAttributeValue;
+                        }
+                        break;
+                        case "PublicAddressAdder": {
+                            publicAddressAdder = sAttributeValue;
+                        }
+                        break;
+                        case "OriginalURL": {
+                            OriginalURL = sAttributeValue;
+                        }
+                        break;
+                        default: {
+                            String sCombine = "AdditionalURL" + iLinkCounter;
+                            if (sAttributeName.compareTo(sCombine) == 0) {
+                                moreLinks.add(sAttributeValue);
+                                iLinkCounter = iLinkCounter + 1;
+                            }
+                        }
+                        break;
+                    }
+                }
+                deVillCargo dvcCur = new deVillCargo(HashofFile, Timestamp, SizeofFile, publicAddressAdder, OriginalURL);
+                dvcCur.addLinks(moreLinks);
+                leafStore.addSource(dvcCur);
+            }
+        }
         return leafStore;
     }
 
