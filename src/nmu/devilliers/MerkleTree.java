@@ -209,16 +209,6 @@ public class MerkleTree
               //  merkleRoot.sHashData = alGrandParents.get(0).sHashData;
             }
             treeBuilt = true;
-
-
-
-
-
-
-
-
-
-
         }
         catch (Exception ex)
         {
@@ -352,7 +342,51 @@ public class MerkleTree
         }
     }
 
+    public String HashChain1(String HashToUse)
+    {
+        try
+        {
+            String sHashout = "";
+            String sHashCur = null;
+            GeneralHASH gh = new GeneralHASH();
+            for (String s : listHashes)
+            {
+                sHashCur = gh.HashnoPrint(s, HashToUse);
+                sHashout = gh.HashnoPrint(sHashout+sHashCur, HashToUse);
+            }
+            return sHashout;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
+    /**
+     * 1 fewer hash per iteration
+     * @param HashToUse
+     * @return
+     */
+    public String HashChain2(String HashToUse)
+    {
+        try
+        {
+            String sHashout = "";
+            String sHashCur = null;
+            GeneralHASH gh = new GeneralHASH();
+            for (String s : listHashes)
+            {
+                sHashout = gh.HashnoPrint(sHashout+s, HashToUse);
+            }
+            return sHashout;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
 }

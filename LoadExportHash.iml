@@ -14,5 +14,6 @@
     <orderEntry type="library" name="jopt-simple-5.0.4" level="project" />
     <orderEntry type="library" name="netty-all-4.1.27.Final" level="project" />
     <orderEntry type="library" name="dom4j-2.1.1" level="project" />
+    <orderEntry type="library" name="peerbase-java" level="project" />
   </component>
 </module>
